@@ -1,0 +1,44 @@
+int trigPin = 3;
+int echoPin = 5; 
+long duration;
+long distance;
+long cm;
+ 
+void setup()
+{
+  Serial.begin(9600);  //this starts the talking
+  pinMode(trigPin, OUTPUT); //we will tell the 
+  //ultrasonic to take a measurement by triggering
+  //this pin
+  pinMode(echoPin, INPUT); //get a message via
+  //this pin
+}
+ 
+void loop()
+{
+delay(50); 
+distance = getDistance();
+Serial.println(distance);
+}
+ 
+ 
+long getDistance() 
+{  
+//give the module nudge
+//a pulse.  __--__ 
+digitalWrite(trigPin, LOW);
+delayMicroseconds(2);
+digitalWrite(trigPin, HIGH);
+delayMicroseconds(10); 
+digitalWrite(trigPin, LOW);
+ 
+duration = pulseIn(echoPin, HIGH);
+cm = microsecondsToCentimeters(duration);
+ 
+return cm;
+}  
+ 
+ 
+long microsecondsToCentimeters(long microseconds) {
+  return microseconds / 29 / 2;
+}
